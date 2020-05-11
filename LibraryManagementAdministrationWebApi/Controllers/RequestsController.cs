@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagementAdministrationWebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagementAdministrationWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RequestsController : ControllerBase
     {
         private readonly LibraryManagementContext _context;
@@ -40,8 +42,6 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
             return request;
         }
-
-
 
         // PUT: api/Requests/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -75,19 +75,6 @@ namespace LibraryManagementAdministrationWebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Requests
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Request>> PostRequest(Request request)
-        {
-            _context.Request.Add(request);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRequest", new { id = request.RequestId }, request);
-        }
-
-        
         private bool RequestExists(int id)
         {
             return _context.Request.Any(e => e.RequestId == id);

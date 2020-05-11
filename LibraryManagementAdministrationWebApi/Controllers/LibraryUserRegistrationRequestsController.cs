@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagementAdministrationWebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagementAdministrationWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LibraryUserRegistrationRequestsController : ControllerBase
     {
         private readonly LibraryManagementContext _context;
@@ -71,34 +73,6 @@ namespace LibraryManagementAdministrationWebApi.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/LibraryUserRegistrationRequests
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<LibraryUserRegistrationRequest>> PostLibraryUserRegistrationRequest(LibraryUserRegistrationRequest libraryUserRegistrationRequest)
-        {
-            _context.LibraryUserRegistrationRequest.Add(libraryUserRegistrationRequest);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLibraryUserRegistrationRequest", new { id = libraryUserRegistrationRequest.RequestId }, libraryUserRegistrationRequest);
-        }
-
-        // DELETE: api/LibraryUserRegistrationRequests/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<LibraryUserRegistrationRequest>> DeleteLibraryUserRegistrationRequest(int id)
-        {
-            var libraryUserRegistrationRequest = await _context.LibraryUserRegistrationRequest.FindAsync(id);
-            if (libraryUserRegistrationRequest == null)
-            {
-                return NotFound();
-            }
-
-            _context.LibraryUserRegistrationRequest.Remove(libraryUserRegistrationRequest);
-            await _context.SaveChangesAsync();
-
-            return libraryUserRegistrationRequest;
         }
 
         private bool LibraryUserRegistrationRequestExists(int id)

@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagementAdministrationWebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagementAdministrationWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LibraryUsersController : ControllerBase
     {
         private readonly LibraryManagementContext _context;
@@ -71,34 +73,6 @@ namespace LibraryManagementAdministrationWebApi.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/LibraryUsers
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<LibraryUser>> PostLibraryUser(LibraryUser libraryUser)
-        {
-            _context.LibraryUser.Add(libraryUser);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLibraryUser", new { id = libraryUser.UserId }, libraryUser);
-        }
-
-        // DELETE: api/LibraryUsers/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<LibraryUser>> DeleteLibraryUser(int id)
-        {
-            var libraryUser = await _context.LibraryUser.FindAsync(id);
-            if (libraryUser == null)
-            {
-                return NotFound();
-            }
-
-            _context.LibraryUser.Remove(libraryUser);
-            await _context.SaveChangesAsync();
-
-            return libraryUser;
         }
 
         private bool LibraryUserExists(int id)
