@@ -26,6 +26,7 @@ namespace LibraryManagementAdministrationWebApi.Models
         public string AccountStatus { get; set; }
         public int AdminLevel { get; set; }
 
+        public virtual AdminRole AdminLevelNavigation { get; set; }
         public virtual ICollection<LibraryUser> LibraryUser { get; set; }
         public virtual ICollection<Request> Request { get; set; }
     }

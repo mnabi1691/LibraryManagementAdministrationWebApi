@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +30,7 @@ namespace LibraryManagementAdministrationWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddDbContext<LibraryManagementContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevEnvironmentConnectionString")));
 
@@ -47,6 +48,7 @@ namespace LibraryManagementAdministrationWebApi
                         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
                         ValidateIssuer = false,
                         ValidateAudience = false,
+                        ValidateLifetime = true
                     };
                 });
         }
@@ -59,6 +61,7 @@ namespace LibraryManagementAdministrationWebApi
                 app.UseDeveloperExceptionPage();
             }
 
+           // app.Use(next => context => { context.Request.EnableRewind(); return next(context); });
 
             app.UseHttpsRedirection();
 

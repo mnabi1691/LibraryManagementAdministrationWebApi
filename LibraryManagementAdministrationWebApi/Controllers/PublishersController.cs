@@ -24,6 +24,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/Publishers
         [HttpGet]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<IEnumerable<Publisher>>> GetPublisher()
         {
             return await _context.Publisher.ToListAsync();
@@ -31,6 +32,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/Publishers/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<Publisher>> GetPublisher(int id)
         {
             var publisher = await _context.Publisher.FindAsync(id);
@@ -47,6 +49,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<IActionResult> PutPublisher(int id, Publisher publisher)
         {
             if (id != publisher.PublisherId)
@@ -79,6 +82,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<ActionResult<Publisher>> PostPublisher(Publisher publisher)
         {
             _context.Publisher.Add(publisher);
@@ -89,6 +93,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // DELETE: api/Publishers/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<ActionResult<Publisher>> DeletePublisher(int id)
         {
             var publisher = await _context.Publisher.FindAsync(id);

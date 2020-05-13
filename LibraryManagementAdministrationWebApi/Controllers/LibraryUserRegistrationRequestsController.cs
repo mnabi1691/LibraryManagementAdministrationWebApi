@@ -24,6 +24,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/LibraryUserRegistrationRequests
         [HttpGet]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<IEnumerable<LibraryUserRegistrationRequest>>> GetLibraryUserRegistrationRequest()
         {
             return await _context.LibraryUserRegistrationRequest.ToListAsync();
@@ -31,6 +32,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/LibraryUserRegistrationRequests/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<LibraryUserRegistrationRequest>> GetLibraryUserRegistrationRequest(int id)
         {
             var libraryUserRegistrationRequest = await _context.LibraryUserRegistrationRequest.FindAsync(id);
@@ -47,6 +49,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<IActionResult> PutLibraryUserRegistrationRequest(int id, LibraryUserRegistrationRequest libraryUserRegistrationRequest)
         {
             if (id != libraryUserRegistrationRequest.RequestId)

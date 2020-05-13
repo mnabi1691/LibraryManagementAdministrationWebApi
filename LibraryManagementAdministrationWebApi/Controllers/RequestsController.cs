@@ -12,7 +12,6 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class RequestsController : ControllerBase
     {
         private readonly LibraryManagementContext _context;
@@ -24,6 +23,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/Requests
         [HttpGet]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequest()
         {
             return await _context.Request.ToListAsync();
@@ -31,6 +31,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/Requests/5
         [HttpGet("{token}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<Request>> GetRequest(String token)
         {
             var request = await _context.Request.FirstOrDefaultAsync(a=> a.RequestToken.Equals(token));
@@ -47,6 +48,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin,SuperAdmin,UpdateAdmin")]
         public async Task<IActionResult> PutRequest(int id, Request request)
         {
             if (id != request.RequestId)

@@ -15,6 +15,7 @@ namespace LibraryManagementAdministrationWebApi.Models
         {
         }
 
+        public virtual DbSet<AdminRole> AdminRole { get; set; }
         public virtual DbSet<Administrator> Administrator { get; set; }
         public virtual DbSet<Author> Author { get; set; }
         public virtual DbSet<Book> Book { get; set; }
@@ -34,6 +35,20 @@ namespace LibraryManagementAdministrationWebApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AdminRole>(entity =>
+            {
+                entity.HasKey(e => e.AdminLevel)
+                    .HasName("PK__AdminRol__413020C863D1AC9A");
+
+                entity.Property(e => e.AdminLevel).ValueGeneratedNever();
+
+                entity.Property(e => e.AdminRole1)
+                    .HasColumnName("AdminRole")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
+
             modelBuilder.Entity<Administrator>(entity =>
             {
                 entity.HasKey(e => e.AdminId)
@@ -80,6 +95,12 @@ namespace LibraryManagementAdministrationWebApi.Models
                 entity.Property(e => e.Upassword)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.HasOne(d => d.AdminLevelNavigation)
+                    .WithMany(p => p.Administrator)
+                    .HasForeignKey(d => d.AdminLevel)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Administr__Admin__2DE6D218");
             });
 
             modelBuilder.Entity<Author>(entity =>

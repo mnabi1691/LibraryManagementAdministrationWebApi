@@ -12,7 +12,6 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly LibraryManagementContext _context;
@@ -24,6 +23,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/Books
         [HttpGet]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<IEnumerable<Book>>> GetBook()
         {
             return await _context.Book.ToListAsync();
@@ -31,6 +31,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // GET: api/Books/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
             var book = await _context.Book.FindAsync(id);
@@ -47,6 +48,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin,UpdateAdmin")]
         public async Task<IActionResult> PutBook(int id, Book book)
         {
             if (id != book.BookId)
@@ -79,6 +81,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
             _context.Book.Add(book);
@@ -89,6 +92,7 @@ namespace LibraryManagementAdministrationWebApi.Controllers
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<ActionResult<Book>> DeleteBook(int id)
         {
             var book = await _context.Book.FindAsync(id);
